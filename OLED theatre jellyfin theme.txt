@@ -1,0 +1,3389 @@
+/* Abyss Cinematic Edition — Built: 2026-07-31T21:09:43Z */
+
+
+/* ── variables.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — variables.css
+ * CSS Custom Properties: the single source of truth for the entire theme.
+ * All other files reference these tokens. Never hardcode values elsewhere.
+ */
+
+:root {
+
+  /* ─── OLED Black System ─────────────────────────────────────────── */
+  --abyss-void:          #000000;   /* True OLED black — page bg      */
+  --abyss-depth-1:       #050507;   /* Cards, panels — barely visible */
+  --abyss-depth-2:       #0a0a0f;   /* Elevated surfaces              */
+  --abyss-depth-3:       #0f0f17;   /* Top-level raised elements      */
+  --abyss-surface:       #12121c;   /* Interactive surfaces           */
+
+  /* ─── Accent: Purple → Blue → Pink ─────────────────────────────── */
+  --abyss-violet:        #7c3aed;
+  --abyss-purple:        #9333ea;
+  --abyss-indigo:        #4f46e5;
+  --abyss-blue:          #2563eb;
+  --abyss-pink:          #db2777;
+  --abyss-rose:          #e11d48;
+
+  /* Gradient — the primary brand gradient used throughout */
+  --abyss-gradient:      linear-gradient(135deg, var(--abyss-violet), var(--abyss-blue), var(--abyss-pink));
+  --abyss-gradient-soft: linear-gradient(135deg,
+                           rgba(124, 58, 237, 0.15),
+                           rgba(37,  99, 235, 0.10),
+                           rgba(219, 39, 119, 0.15));
+  --abyss-gradient-glow: linear-gradient(135deg,
+                           rgba(124, 58, 237, 0.40),
+                           rgba(37,  99, 235, 0.30),
+                           rgba(219, 39, 119, 0.40));
+
+  /* Dynamic ambient — JavaScript overrides these per artwork */
+  --abyss-ambient-primary:   rgba(124, 58, 237, 0.18);
+  --abyss-ambient-secondary: rgba(37,  99, 235, 0.12);
+  --abyss-ambient-accent:    rgba(219, 39, 119, 0.15);
+
+  /* ─── Text ──────────────────────────────────────────────────────── */
+  --abyss-text-primary:   rgba(255, 255, 255, 0.96);
+  --abyss-text-secondary: rgba(255, 255, 255, 0.65);
+  --abyss-text-muted:     rgba(255, 255, 255, 0.38);
+  --abyss-text-ghost:     rgba(255, 255, 255, 0.18);
+
+  /* ─── Glass System ──────────────────────────────────────────────── */
+  --abyss-glass-bg:       rgba(12, 12, 22, 0.55);
+  --abyss-glass-bg-heavy: rgba(8,   8, 16, 0.72);
+  --abyss-glass-blur:     saturate(180%) blur(20px);
+  --abyss-glass-blur-sm:  saturate(160%) blur(10px);
+  --abyss-glass-blur-lg:  saturate(200%) blur(40px);
+  --abyss-glass-border:   rgba(255, 255, 255, 0.07);
+  --abyss-glass-border-glow: rgba(124, 58, 237, 0.25);
+  --abyss-glass-highlight: rgba(255, 255, 255, 0.04);
+  --abyss-glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.6),
+                           0 2px  8px rgba(0, 0, 0, 0.4),
+                           inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  /* ─── Film Grain & Effects ──────────────────────────────────────── */
+  --abyss-grain-opacity:  0.025;
+  --abyss-vignette-size:  60%;
+  --abyss-vignette-color: rgba(0, 0, 0, 0.70);
+  --abyss-bloom-opacity:  0.018;
+
+  /* ─── Backdrop ──────────────────────────────────────────────────── */
+  --abyss-backdrop-blur:  blur(28px) saturate(130%) brightness(0.55);
+  --abyss-backdrop-zoom-duration: 28s;
+  --abyss-backdrop-drift-duration: 40s;
+  --abyss-backdrop-scale: 1.08;
+
+  /* ─── Spacing ───────────────────────────────────────────────────── */
+  --abyss-space-xs:   4px;
+  --abyss-space-sm:   8px;
+  --abyss-space-md:   16px;
+  --abyss-space-lg:   24px;
+  --abyss-space-xl:   40px;
+  --abyss-space-2xl:  64px;
+  --abyss-space-3xl:  96px;
+
+  /* ─── Border Radius ─────────────────────────────────────────────── */
+  --abyss-radius-sm:   6px;
+  --abyss-radius-md:   12px;
+  --abyss-radius-lg:   16px;
+  --abyss-radius-xl:   24px;
+  --abyss-radius-full: 9999px;
+
+  /* ─── Motion / Easing ───────────────────────────────────────────── */
+  --abyss-ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --abyss-ease-out:      cubic-bezier(0.16, 1.00, 0.30, 1);
+  --abyss-ease-in-out:   cubic-bezier(0.65, 0.00, 0.35, 1);
+  --abyss-ease-cinema:   cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --abyss-dur-instant:   80ms;
+  --abyss-dur-fast:      160ms;
+  --abyss-dur-normal:    280ms;
+  --abyss-dur-slow:      480ms;
+  --abyss-dur-cinematic: 720ms;
+
+  /* ─── Card Geometry ─────────────────────────────────────────────── */
+  --abyss-card-hover-lift:   -8px;
+  --abyss-card-hover-shadow: 0 24px 64px rgba(0, 0, 0, 0.7),
+                              0  8px 24px rgba(124, 58, 237, 0.25),
+                              0  0  40px rgba(124, 58, 237, 0.12);
+
+  /* ─── Z-Index Scale ─────────────────────────────────────────────── */
+  --z-backdrop:   0;
+  --z-content:    10;
+  --z-card:       20;
+  --z-nav:        100;
+  --z-overlay:    200;
+  --z-dialog:     300;
+  --z-toast:      400;
+  --z-effects:    9000;   /* film grain, bloom, vignette overlays */
+  --z-grain:      9001;   /* grain sits above bloom */
+}
+
+/* ─── Reduced Motion: zero-out all durations ──────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --abyss-dur-instant:           0ms;
+    --abyss-dur-fast:              0ms;
+    --abyss-dur-normal:            0ms;
+    --abyss-dur-slow:              0ms;
+    --abyss-dur-cinematic:         0ms;
+    --abyss-backdrop-zoom-duration: 9999s;
+    --abyss-backdrop-drift-duration: 9999s;
+  }
+}
+
+/* ── base.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — base.css
+ * Global resets, typography, scrollbars, and foundational styles.
+ * Import after variables.css.
+ */
+
+/* ─── Import variables ─────────────────────────────────────────────── */
+
+/* ─── Google Fonts: Inter only — weights 300–800, swap to avoid FOUT ── */
+
+/* ─── Box Model Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ─── HTML / Body ──────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body,
+.backgroundContainer,
+#page-container,
+.pageContainer,
+.scrollY {
+  background-color: var(--abyss-void) !important;
+  color: var(--abyss-text-primary) !important;
+}
+
+/* ─── Typography ───────────────────────────────────────────────────── */
+body, .emby-input, .emby-textarea, .emby-select {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, .itemName, .parentName, .detailPageTitle {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--abyss-text-primary) !important;
+}
+
+h4, h5, h6, .sectionTitle, .sectionTitleTextButton {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72em;
+  color: var(--abyss-text-muted) !important;
+}
+
+p, .overview, .itemDetailPage p {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--abyss-text-secondary) !important;
+}
+
+/* ─── Custom Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.35);
+  border-radius: var(--abyss-radius-full);
+  transition: background var(--abyss-dur-fast) var(--abyss-ease-out);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.65);
+}
+
+/* ─── Focus Ring ───────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid rgba(124, 58, 237, 0.7);
+  outline-offset: 3px;
+  border-radius: var(--abyss-radius-sm);
+}
+
+/* ─── Links ────────────────────────────────────────────────────────── */
+a {
+  color: var(--abyss-text-primary);
+  text-decoration: none;
+  transition: color var(--abyss-dur-fast) var(--abyss-ease-out);
+}
+a:hover {
+  color: rgba(167, 139, 250, 1);
+}
+
+/* ─── Form Elements ────────────────────────────────────────────────── */
+.emby-input,
+.emby-textarea,
+.emby-select,
+.inputContainer input,
+.inputContainer select {
+  background: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  color: var(--abyss-text-primary) !important;
+  transition:
+    border-color var(--abyss-dur-fast) var(--abyss-ease-out),
+    box-shadow   var(--abyss-dur-fast) var(--abyss-ease-out);
+}
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select:focus,
+.inputContainer input:focus {
+  border-color: rgba(124, 58, 237, 0.50) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
+  background: var(--abyss-depth-3) !important;
+}
+.emby-input::placeholder,
+.emby-textarea::placeholder {
+  color: var(--abyss-text-ghost) !important;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+.raised, .emby-button, button[data-action] {
+  border-radius: var(--abyss-radius-md) !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.01em !important;
+  transition:
+    transform    var(--abyss-dur-fast) var(--abyss-ease-spring),
+    box-shadow   var(--abyss-dur-fast) var(--abyss-ease-out),
+    opacity      var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.raised:active, .emby-button:active {
+  transform: scale(0.96) !important;
+}
+
+/* Primary (play) button */
+.detailButton-primary,
+.btnPlay,
+.raised.detailButton-primary {
+  background: var(--abyss-gradient) !important;
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.40) !important;
+}
+.detailButton-primary:hover,
+.btnPlay:hover {
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Secondary button */
+.detailButton:not(.detailButton-primary),
+.btnResume,
+.btnShuffle {
+  background: var(--abyss-glass-bg) !important;
+  backdrop-filter: var(--abyss-glass-blur-sm) !important;
+  -webkit-backdrop-filter: var(--abyss-glass-blur-sm) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  color: var(--abyss-text-primary) !important;
+}
+.detailButton:not(.detailButton-primary):hover {
+  background: rgba(124, 58, 237, 0.18) !important;
+  border-color: rgba(124, 58, 237, 0.35) !important;
+}
+
+/* ─── Images ───────────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ─── Selection ────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+  color: #fff;
+}
+
+/* ─── Misc Jellyfin overrides ──────────────────────────────────────── */
+.pageTitleWithDefaultLogo,
+.emby-icon { color: var(--abyss-text-primary) !important; }
+
+.separator { border-color: var(--abyss-glass-border) !important; }
+
+.listItem, .listItem-border {
+  border-bottom-color: var(--abyss-glass-border) !important;
+}
+
+/* Hide any lingering grey backgrounds */
+.backgroundContainer::before,
+.solidBackground,
+.noBackdrop .backdropContainer {
+  background: var(--abyss-void) !important;
+}
+
+/* ── oled.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — oled.css
+ * True #000000 everywhere. Eliminates every grey background from Jellyfin's
+ * default UI and replaces all surfaces with OLED-perfect blacks.
+ */
+
+/* ─── Global page surfaces ─────────────────────────────────────────── */
+html,
+body,
+#htmlDocument,
+#page-container,
+.pageContainer,
+.backgroundContainer,
+.skinBody,
+.mainAnimatedPages,
+.mainAnimatedPage {
+  background-color: var(--abyss-void) !important;
+  background-image: none !important;
+}
+
+/* ─── All page types ───────────────────────────────────────────────── */
+.standardBg,
+.noBackdrop,
+.noBackdrop .backdropContainer,
+.backdropContainer {
+  background-color: var(--abyss-void) !important;
+}
+
+/* ─── Sidedrawer / side navigation ────────────────────────────────── */
+.skinHeader,
+.headerTop,
+.viewMenuBarTabs,
+.mainDrawer,
+.sidebarContent,
+.drawer-scroll-container {
+  background-color: var(--abyss-void) !important;
+  background-image: none !important;
+  border-color: var(--abyss-glass-border) !important;
+}
+
+/* ─── Cards and panels — barely lifted from black ─────────────────── */
+.card,
+.cardBox,
+.cardContent,
+.cardImage,
+.cardFooter,
+.cardTextContainer {
+  background-color: var(--abyss-depth-1) !important;
+}
+
+/* ─── Elevated panels (search, menus, popups) ──────────────────────── */
+.paper-icon-button-light,
+.toast,
+.searchResults,
+.autocomplete-results,
+.filterMenu,
+.contextMenu,
+.paperList {
+  background-color: var(--abyss-depth-3) !important;
+}
+
+/* ─── Dialog / modal backdrop ──────────────────────────────────────── */
+.dialogBackdrop,
+.mdl-overlay {
+  background-color: rgba(0, 0, 0, 0.88) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ─── Tabs and tab bars ────────────────────────────────────────────── */
+.emby-tabs-bar,
+.headerTabs,
+.viewMenuBar {
+  background-color: var(--abyss-void) !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+}
+
+.emby-tab-button[aria-selected="true"],
+.emby-tab-button.is-active {
+  color: var(--abyss-text-primary) !important;
+  border-bottom-color: var(--abyss-purple) !important;
+}
+.emby-tab-button {
+  color: var(--abyss-text-muted) !important;
+}
+
+/* ─── Jellyfin lists and rows ──────────────────────────────────────── */
+.listItem,
+.listItem-border,
+.itemsContainer > div {
+  background-color: transparent !important;
+}
+
+/* ─── Episode/season lists ─────────────────────────────────────────── */
+.episodesContainer,
+.seasonContainer,
+.itemDetailPage .detailSection {
+  background-color: var(--abyss-void) !important;
+}
+
+/* ─── Media info row ───────────────────────────────────────────────── */
+.mediaInfoItem {
+  background-color: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-sm) !important;
+  padding: 2px 8px !important;
+  font-size: 0.7em !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-secondary) !important;
+}
+
+/* HDR / Dolby badges get accent color */
+.mediaInfoItem[title*="Dolby"],
+.mediaInfoItem[title*="HDR"],
+.mediaInfoItem[title*="4K"],
+.mediaInfoItem[title*="IMAX"] {
+  background: rgba(124, 58, 237, 0.18) !important;
+  border-color: rgba(124, 58, 237, 0.35) !important;
+  color: rgba(167, 139, 250, 1) !important;
+}
+
+/* ─── Ratings stars ────────────────────────────────────────────────── */
+.starRatingContainer,
+.communityRating {
+  color: rgba(253, 224, 71, 1) !important; /* warm amber star */
+}
+
+/* ─── Remove grey bars / dividers / fillers ────────────────────────── */
+.emby-scroller,
+.focuscontainer,
+.focuscontainer-x {
+  background: transparent !important;
+}
+
+/* Override any Jellyfin-applied grey tone */
+.cardImageContainer {
+  background: var(--abyss-depth-1) !important;
+}
+
+/* ─── Admin / Dashboard pages ──────────────────────────────────────── */
+.adminPage,
+.dashboardPage,
+.systemInfoPage,
+.usersPage,
+.devicesPage,
+.logsPage,
+.scheduledTasksPage,
+.pluginsPage,
+.notificationsPage {
+  background-color: var(--abyss-void) !important;
+}
+
+/* Admin dashboard overview cards */
+.dashboardEntry,
+.adminPageContent .dashboardSection {
+  background: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-lg) !important;
+  color: var(--abyss-text-primary) !important;
+}
+
+/* Admin activity / log table rows */
+.logEntry,
+.activityEntry {
+  background: transparent !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+  color: var(--abyss-text-secondary) !important;
+}
+.logEntry:hover,
+.activityEntry:hover {
+  background: rgba(124, 58, 237, 0.06) !important;
+}
+
+/* Scheduled tasks */
+.taskButton,
+.scheduledTaskDiv {
+  background: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-md) !important;
+}
+
+/* Admin form sections */
+.adminFormSection,
+.settingsSection {
+  background: var(--abyss-depth-1) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-lg) !important;
+  padding: var(--abyss-space-lg) !important;
+  margin-bottom: var(--abyss-space-lg) !important;
+}
+
+/* Plugin cards */
+.pluginCard,
+.packageCard {
+  background: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-lg) !important;
+}
+
+/* ─── Search results page ───────────────────────────────────────────── */
+.searchPage {
+  background-color: var(--abyss-void) !important;
+}
+
+.searchResultsContainer,
+.searchHintsContainer {
+  background: transparent !important;
+}
+
+/* "No results" state */
+.searchPage .noItemsMessage,
+.searchPage .emptyMessage {
+  color: var(--abyss-text-muted) !important;
+}
+
+/* Search category headers (Movies, TV, Music, etc.) */
+.searchPage .sectionTitle,
+.searchHintsContainer .sectionTitle {
+  color: var(--abyss-text-muted) !important;
+  font-size: 0.68em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+/* ─── Person detail page ────────────────────────────────────────────── */
+.personDetailPage {
+  background-color: var(--abyss-void) !important;
+}
+
+/* Person biography */
+.personInfo,
+.personBiography {
+  color: var(--abyss-text-secondary) !important;
+  line-height: 1.75 !important;
+  font-size: 1em !important;
+}
+
+/* Person birth/death metadata */
+.personBirthdate,
+.personBirthplace,
+.personDeathdate {
+  color: var(--abyss-text-muted) !important;
+  font-size: 0.82em !important;
+  font-weight: 500 !important;
+}
+
+/* Person name */
+.personDetailPage h3,
+.personDetailPage .itemName {
+  font-size: clamp(1.8rem, 4vw, 3.5rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--abyss-text-primary) !important;
+}
+
+/* ─── Episode / season list ─────────────────────────────────────────── */
+.episodeItem,
+.seasonItem {
+  background: var(--abyss-depth-1) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  color: var(--abyss-text-primary) !important;
+  transition: background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+  margin-bottom: var(--abyss-space-sm) !important;
+}
+.episodeItem:hover,
+.seasonItem:hover {
+  background: var(--abyss-depth-2) !important;
+  border-color: rgba(124, 58, 237, 0.30) !important;
+}
+
+.episodeName,
+.seasonName {
+  color: var(--abyss-text-primary) !important;
+  font-weight: 600 !important;
+}
+
+.episodeNumber,
+.seasonNumber {
+  color: var(--abyss-purple) !important;
+  font-weight: 700 !important;
+  font-size: 0.78em !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.episodeOverview {
+  color: var(--abyss-text-muted) !important;
+  font-size: 0.85em !important;
+  line-height: 1.6 !important;
+}
+
+/* Watched indicator for episodes */
+.episodeItem .playedIndicator {
+  background: var(--abyss-purple) !important;
+  opacity: 0.85 !important;
+}
+
+/* ─── User settings / profile page ─────────────────────────────────── */
+.userSettingsPage,
+.userProfilePage,
+.myPreferencesPage,
+.displayPreferencesPage {
+  background-color: var(--abyss-void) !important;
+}
+
+/* Settings list items */
+.settingsLinkItem,
+.prefLinkItem {
+  background: var(--abyss-depth-1) !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+  color: var(--abyss-text-primary) !important;
+  transition: background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.settingsLinkItem:hover,
+.prefLinkItem:hover {
+  background: var(--abyss-depth-2) !important;
+}
+
+/* Shimmer placeholder — subtle dark shimmer, not grey */
+.cardImageContainer.coveredImage-noScale::before,
+.lazy-image-placeholder {
+  background: linear-gradient(
+    90deg,
+    var(--abyss-depth-1) 0%,
+    var(--abyss-depth-2) 50%,
+    var(--abyss-depth-1) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  animation: abyss-shimmer 2s linear infinite;
+}
+
+@keyframes abyss-shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ─── Progress bars ────────────────────────────────────────────────── */
+.itemProgressBar,
+.playedIndicator {
+  background: var(--abyss-depth-2) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  overflow: hidden;
+}
+.itemProgressBarForeground,
+.playedProgress {
+  background: var(--abyss-gradient) !important;
+  border-radius: var(--abyss-radius-full) !important;
+}
+
+/* ─── "Played" checkmark overlay ──────────────────────────────────── */
+.playedIndicatorImage,
+.watched-indicator {
+  background: var(--abyss-purple) !important;
+  opacity: 0.9 !important;
+}
+
+/* ─── Jellyfin's inline theme color → our purple ──────────────────── */
+.jellyfinColor,
+[style*="color: #00a4dc"],
+[style*="color:#00a4dc"] {
+  color: var(--abyss-purple) !important;
+}
+[style*="background-color: #00a4dc"],
+[style*="background:#00a4dc"] {
+  background-color: var(--abyss-violet) !important;
+}
+
+/* ── backdrop.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — backdrop.css
+ * Dynamic cinematic backdrops: zoom, ambient drift, layered depth system,
+ * colour grading, and adaptive vignette.
+ *
+ * Layer order (bottom → top):
+ *   1. Raw artwork (slow-zoom + drift)
+ *   2. Blur + colour-grade layer
+ *   3. Vignette (radial fade-to-black at edges)
+ *   4. Glass interface layer
+ */
+
+/* ─── Backdrop container ───────────────────────────────────────────── */
+.backdropContainer,
+.itemBackdropContainer,
+.detailImageContainer {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: var(--z-backdrop) !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ─── The raw artwork image ────────────────────────────────────────── */
+.backdropImage,
+.itemBackdropImage,
+.detailImage {
+  position: absolute !important;
+  inset: -8% !important;          /* oversized to allow drift without edges showing */
+  width: 116% !important;
+  height: 116% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  transform-origin: center center;
+
+  /*
+   * Single combined animation — zoom AND drift share one transform so
+   * they never fight each other. margin-left was previously used for
+   * drift which triggers layout recalc on every frame; translateX is
+   * GPU-composited and costs nothing.
+   */
+  animation: abyss-backdrop-cinema
+    calc(var(--abyss-backdrop-zoom-duration) * 1.5)
+    var(--abyss-ease-cinema)
+    infinite alternate;
+
+  /* Colour grade baked into the image layer */
+  filter: brightness(0.50) saturate(1.30) contrast(1.10);
+  will-change: transform;
+}
+
+/* ─── Combined zoom + GPU-safe drift ──────────────────────────────── */
+@keyframes abyss-backdrop-cinema {
+  0%   { transform: scale(1.00) translateX(  0px); }
+  20%  { transform: scale(1.02) translateX( -5px); }
+  40%  { transform: scale(1.04) translateX(  4px); }
+  60%  { transform: scale(1.06) translateX( -7px); }
+  80%  { transform: scale(1.07) translateX(  3px); }
+  100% { transform: scale(var(--abyss-backdrop-scale)) translateX(-4px); }
+}
+
+/* ─── Layer 2: Blur + colour grade overlay ──────────────────────────── */
+.backdropContainer::before,
+.itemBackdropContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  backdrop-filter: var(--abyss-backdrop-blur);
+  -webkit-backdrop-filter: var(--abyss-backdrop-blur);
+  /* Cinematic grade: deepen blacks, cool shadows, warm highlights */
+  background: linear-gradient(
+    180deg,
+    rgba(0,  0, 20, 0.25) 0%,
+    rgba(0,  0,  0, 0.10) 40%,
+    rgba(0,  0,  0, 0.50) 75%,
+    rgba(0,  0,  0, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── Layer 3: Edge vignette ───────────────────────────────────────── */
+.backdropContainer::after,
+.itemBackdropContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(
+      ellipse var(--abyss-vignette-size) var(--abyss-vignette-size) at center,
+      transparent 30%,
+      var(--abyss-vignette-color) 100%
+    );
+  pointer-events: none;
+}
+
+/* ─── Detail page: extra-deep bottom gradient ───────────────────────── */
+.itemDetailPage .backdropContainer::before {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.20) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    var(--abyss-void)   100%
+  ) !important;
+}
+
+/* ─── Ambient glow behind artwork on detail pages ───────────────────── */
+.itemDetailPage::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 60%;
+  background: radial-gradient(
+    ellipse at center,
+    var(--abyss-ambient-primary)   0%,
+    var(--abyss-ambient-secondary) 40%,
+    transparent                    70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+  /* JS overrides --abyss-ambient-* based on poster colour */
+  transition:
+    background var(--abyss-dur-cinematic) var(--abyss-ease-cinema),
+    opacity    var(--abyss-dur-cinematic) var(--abyss-ease-cinema);
+}
+
+/* ─── Home page: lighter backdrop treatment ─────────────────────────── */
+.homePage .backdropImage {
+  filter: brightness(0.25) saturate(1.20) !important;
+  animation-duration: 40s, 55s;
+}
+
+/* ─── Transition when backdrop source changes ───────────────────────── */
+.backdropImage {
+  transition: opacity var(--abyss-dur-cinematic) var(--abyss-ease-cinema) !important;
+}
+.backdropImage.loading,
+.backdropImage.hidden {
+  opacity: 0 !important;
+}
+
+/* ─── No-backdrop state: still full black ───────────────────────────── */
+.noBackdrop .backdropContainer,
+.noBackdrop .itemBackdropContainer {
+  background: var(--abyss-void) !important;
+}
+.noBackdrop .backdropImage {
+  display: none !important;
+}
+
+/* ─── Search / settings pages: suppress backdrop ───────────────────── */
+.searchPage .backdropContainer,
+.settingsPage .backdropContainer,
+.userSettingsPage .backdropContainer {
+  opacity: 0 !important;
+}
+
+/* ── motion.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — motion.css
+ * Spring physics, momentum easing, staggered entrances, and the
+ * cinematic motion engine. Only transform + opacity are animated —
+ * zero layout thrash, 60 FPS on GPU.
+ */
+
+/* ─── Page transition ──────────────────────────────────────────────── */
+.mainAnimatedPage,
+.page {
+  animation: abyss-page-in var(--abyss-dur-cinematic) var(--abyss-ease-cinema) both;
+}
+
+@keyframes abyss-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Leaving page fades down subtly */
+.mainAnimatedPage.page-exit {
+  animation: abyss-page-out var(--abyss-dur-slow) var(--abyss-ease-in-out) both;
+  pointer-events: none;
+}
+
+@keyframes abyss-page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.98);
+  }
+}
+
+/* ─── Section / row entrance: staggered reveal ─────────────────────── */
+.verticalSection,
+.homeSection,
+.detailSection {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: abyss-section-in var(--abyss-dur-slow) var(--abyss-ease-out) forwards;
+}
+
+/* Stagger each section by 80ms */
+.verticalSection:nth-child(1)  { animation-delay: 0ms;   }
+.verticalSection:nth-child(2)  { animation-delay: 80ms;  }
+.verticalSection:nth-child(3)  { animation-delay: 160ms; }
+.verticalSection:nth-child(4)  { animation-delay: 240ms; }
+.verticalSection:nth-child(5)  { animation-delay: 320ms; }
+.verticalSection:nth-child(6)  { animation-delay: 400ms; }
+.verticalSection:nth-child(n+7){ animation-delay: 480ms; }
+
+@keyframes abyss-section-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Card stagger inside rows ─────────────────────────────────────── */
+.card {
+  opacity: 0;
+  transform: translateY(16px) scale(0.97);
+  animation: abyss-card-in var(--abyss-dur-normal) var(--abyss-ease-spring) forwards;
+}
+
+.card:nth-child(1)  { animation-delay: 40ms;  }
+.card:nth-child(2)  { animation-delay: 80ms;  }
+.card:nth-child(3)  { animation-delay: 120ms; }
+.card:nth-child(4)  { animation-delay: 160ms; }
+.card:nth-child(5)  { animation-delay: 200ms; }
+.card:nth-child(6)  { animation-delay: 240ms; }
+.card:nth-child(7)  { animation-delay: 280ms; }
+.card:nth-child(8)  { animation-delay: 320ms; }
+.card:nth-child(n+9){ animation-delay: 360ms; }
+
+@keyframes abyss-card-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Dialog entrance — soft rise + blur-in ────────────────────────── */
+.dialog {
+  animation: abyss-dialog-in var(--abyss-dur-slow) var(--abyss-ease-spring) both;
+}
+
+@keyframes abyss-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.95);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.dialog.dialog-exit {
+  animation: abyss-dialog-out var(--abyss-dur-normal) var(--abyss-ease-in-out) both;
+  pointer-events: none;
+}
+
+@keyframes abyss-dialog-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+    filter: blur(6px);
+  }
+}
+
+/* ─── Drawer — natural slide ────────────────────────────────────────── */
+.mainDrawer {
+  transition: transform var(--abyss-dur-slow) var(--abyss-ease-out) !important;
+}
+.mainDrawer.drawerOpen {
+  transform: translateX(0) !important;
+}
+.mainDrawer:not(.drawerOpen) {
+  transform: translateX(-100%) !important;
+}
+
+/* ─── Hero detail page entrance ────────────────────────────────────── */
+.itemDetailPage .detailImageContainer {
+  animation: abyss-hero-in var(--abyss-dur-cinematic) var(--abyss-ease-cinema) both;
+}
+
+@keyframes abyss-hero-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.itemDetailPage .detailPageContent {
+  animation: abyss-detail-content-in var(--abyss-dur-cinematic) var(--abyss-ease-out) 120ms both;
+}
+
+@keyframes abyss-detail-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Context menu — spring pop ────────────────────────────────────── */
+.contextMenu,
+.paper-dialog-open {
+  animation: abyss-popup-in var(--abyss-dur-fast) var(--abyss-ease-spring) both;
+  transform-origin: top left;
+}
+
+@keyframes abyss-popup-in {
+  from {
+    opacity: 0;
+    transform: scale(0.90) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ─── Toast notifications ───────────────────────────────────────────── */
+.toast {
+  animation: abyss-toast-in var(--abyss-dur-normal) var(--abyss-ease-spring) both;
+}
+
+@keyframes abyss-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ─── Image lazy-load fade ──────────────────────────────────────────── */
+.cardImageLoaded,
+img[src].lazy-loaded {
+  animation: abyss-fade-in var(--abyss-dur-normal) var(--abyss-ease-out) both;
+}
+
+@keyframes abyss-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Button micro-interaction ──────────────────────────────────────── */
+.raised,
+.emby-button {
+  transition:
+    transform    var(--abyss-dur-fast) var(--abyss-ease-spring),
+    box-shadow   var(--abyss-dur-fast) var(--abyss-ease-out),
+    opacity      var(--abyss-dur-fast) var(--abyss-ease-out),
+    background   var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+
+/* ─── Tab indicator slide ───────────────────────────────────────────── */
+.emby-tab-slider {
+  transition: left var(--abyss-dur-normal) var(--abyss-ease-spring) !important;
+  background: var(--abyss-gradient) !important;
+}
+
+/* ─── Scroll-reveal (applied by abyss.js IntersectionObserver) ──────── */
+.abyss-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity   var(--abyss-dur-slow) var(--abyss-ease-out),
+    transform var(--abyss-dur-slow) var(--abyss-ease-out);
+}
+.abyss-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children of a revealed container */
+.abyss-reveal-group > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   var(--abyss-dur-normal) var(--abyss-ease-out),
+    transform var(--abyss-dur-normal) var(--abyss-ease-spring);
+}
+.abyss-reveal-group.is-visible > *:nth-child(1)  { transition-delay: 0ms;   opacity: 1; transform: translateY(0); }
+.abyss-reveal-group.is-visible > *:nth-child(2)  { transition-delay: 60ms;  opacity: 1; transform: translateY(0); }
+.abyss-reveal-group.is-visible > *:nth-child(3)  { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+.abyss-reveal-group.is-visible > *:nth-child(4)  { transition-delay: 180ms; opacity: 1; transform: translateY(0); }
+.abyss-reveal-group.is-visible > *:nth-child(5)  { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.abyss-reveal-group.is-visible > *:nth-child(n+6){ transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+
+/* ── cards.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — cards.css
+ * Floating poster cards with lift, perspective tilt, ambient glow,
+ * and cinematic hover states. GPU-safe: only transform + opacity + filter.
+ */
+
+/* ─── Card base ────────────────────────────────────────────────────── */
+.card,
+.cardBox {
+  position: relative;
+  border-radius: var(--abyss-radius-md) !important;
+  overflow: visible !important;               /* allow shadow + glow to escape */
+  background: transparent !important;
+  cursor: pointer;
+
+  /* Smooth spring transition */
+  transition:
+    transform    var(--abyss-dur-normal) var(--abyss-ease-spring),
+    filter       var(--abyss-dur-normal) var(--abyss-ease-out) !important;
+
+  /* GPU layer hint */
+  will-change: transform;
+}
+
+/* ─── Inner image container ────────────────────────────────────────── */
+.cardContent,
+.cardImageContainer {
+  border-radius: var(--abyss-radius-md) !important;
+  overflow: hidden !important;
+  position: relative;
+  background: var(--abyss-depth-1) !important;
+
+  /* Persistent subtle shadow */
+  box-shadow:
+    0  4px 16px rgba(0, 0, 0, 0.55),
+    0  1px  4px rgba(0, 0, 0, 0.40);
+  transition:
+    box-shadow var(--abyss-dur-normal) var(--abyss-ease-out);
+}
+
+/* Inner highlight edge (glass feel) */
+.cardContent::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── Poster image ─────────────────────────────────────────────────── */
+.cardImage,
+.cardImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--abyss-radius-md) !important;
+  transition:
+    transform  var(--abyss-dur-slow)   var(--abyss-ease-out),
+    filter     var(--abyss-dur-normal) var(--abyss-ease-out),
+    brightness var(--abyss-dur-normal) var(--abyss-ease-out);
+}
+
+/* ─── CSS vars for JS mouse-tracking tilt ───────────────────────────── */
+/*
+ * abyss.js sets --card-rx and --card-ry on each card element based on
+ * mouse position relative to the card centre on mousemove.
+ * The CSS uses them here so there is no inline style on the image.
+ */
+.card {
+  --card-rx: 0deg;
+  --card-ry: 0deg;
+}
+
+/* ─── Card hover: lift + JS-driven tilt + glow ─────────────────────── */
+/*
+ * :not(.selected) prevents hover from clobbering the selected-card ring.
+ * The selected state uses a separate, higher-specificity rule below.
+ */
+.card:not(.selected):hover {
+  transform:
+    translateY(var(--abyss-card-hover-lift))
+    scale(1.04)
+    perspective(700px)
+    rotateY(var(--card-ry))
+    rotateX(var(--card-rx)) !important;
+  z-index: var(--z-card) !important;
+}
+
+.card:not(.selected):hover .cardContent,
+.card:not(.selected):hover .cardImageContainer {
+  box-shadow: var(--abyss-card-hover-shadow) !important;
+}
+
+.card:not(.selected):hover .cardImage,
+.card:not(.selected):hover .cardImageContainer img {
+  transform: scale(1.06) !important;
+  filter: brightness(1.10) saturate(1.15) !important;
+}
+
+/* ─── Ambient glow halo behind poster ──────────────────────────────── */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 10% 5%;
+  border-radius: var(--abyss-radius-lg);
+  background: var(--abyss-ambient-primary);
+  filter: blur(24px);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition:
+    opacity var(--abyss-dur-normal) var(--abyss-ease-out),
+    filter  var(--abyss-dur-normal) var(--abyss-ease-out);
+}
+
+.card:hover::after {
+  opacity: 1;
+  filter: blur(32px);
+}
+
+/* ─── Card overlay (visible on hover) ──────────────────────────────── */
+.cardOverlayContainer,
+.cardOverlay {
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: var(--abyss-radius-md) !important;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.80) 0%,
+    rgba(0, 0, 0, 0.20) 50%,
+    transparent         100%
+  ) !important;
+  opacity: 0;
+  transition: opacity var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--abyss-space-md);
+}
+
+.card:hover .cardOverlayContainer,
+.card:hover .cardOverlay {
+  opacity: 1 !important;
+}
+
+/* ─── Play button inside card overlay ──────────────────────────────── */
+.cardOverlayButton,
+.cardOverlayButton-br {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.20) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  color: #fff !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  transition:
+    transform   var(--abyss-dur-fast) var(--abyss-ease-spring),
+    background  var(--abyss-dur-fast) var(--abyss-ease-out),
+    box-shadow  var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+
+.cardOverlayButton:hover {
+  background: rgba(124, 58, 237, 0.55) !important;
+  border-color: rgba(124, 58, 237, 0.60) !important;
+  transform: scale(1.12) !important;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.45) !important;
+}
+
+/* ─── Card footer / text ────────────────────────────────────────────── */
+.cardFooter,
+.cardText,
+.cardTextContainer {
+  background: transparent !important;
+  padding: var(--abyss-space-sm) 2px !important;
+}
+
+.cardText {
+  color: var(--abyss-text-primary) !important;
+  font-weight: 600 !important;
+  font-size: 0.85em !important;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardTextSecondary {
+  color: var(--abyss-text-muted) !important;
+  font-size: 0.75em !important;
+  font-weight: 400 !important;
+}
+
+/* ─── Progress bar on cards ─────────────────────────────────────────── */
+.cardIndicators .itemProgressBar {
+  border-radius: var(--abyss-radius-full) !important;
+  height: 3px !important;
+  margin-top: 6px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+.cardIndicators .itemProgressBarForeground {
+  background: var(--abyss-gradient) !important;
+  border-radius: var(--abyss-radius-full) !important;
+}
+
+/* ─── "Continue Watching" cards — slightly lifted always ───────────── */
+.recentlyPlayedCard .cardContent,
+.continueWatchingCard .cardContent {
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.60),
+    0 0  24px rgba(124, 58, 237, 0.10) !important;
+}
+
+/* ─── Unplayed indicator badge ──────────────────────────────────────── */
+.cardIndicators .playedIndicator {
+  background: var(--abyss-purple) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  font-size: 0.65em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* ─── Large portrait cards (movies, shows) ──────────────────────────── */
+.portraitCard .cardContent {
+  aspect-ratio: 2 / 3 !important;
+}
+
+/* ─── Landscape thumb cards ─────────────────────────────────────────── */
+.backdropCard .cardContent {
+  aspect-ratio: 16 / 9 !important;
+}
+
+/* ─── Square cards (music, collections) ────────────────────────────── */
+.squareCard .cardContent {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: var(--abyss-radius-lg) !important;
+}
+
+/* ─── Active/selected card state ────────────────────────────────────── */
+.card.selected .cardContent {
+  box-shadow:
+    0 0 0 2px var(--abyss-purple),
+    var(--abyss-card-hover-shadow) !important;
+}
+
+/* ── hero.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — hero.css
+ * Detail page hero layout. Cinematic breathing space, layered depth,
+ * poster treatment, and structured metadata hierarchy.
+ *
+ * Layout (top → bottom):
+ *   Full-bleed cinematic backdrop
+ *   ↓  gradient fade
+ *   [Poster] [Title / Metadata / Badges / Buttons]
+ *   ─────────────────────────────────────────────
+ *   Overview
+ *   Cast & Crew
+ *   More Like This
+ */
+
+/* ─── Detail page wrapper ───────────────────────────────────────────── */
+.itemDetailPage {
+  background: var(--abyss-void) !important;
+  min-height: 100vh;
+}
+
+/* ─── Full-bleed hero area ──────────────────────────────────────────── */
+.detailImageContainer,
+.itemDetailPage .backdropContainer {
+  position: fixed !important;
+  inset: 0 !important;
+  height: 100vh !important;
+  z-index: var(--z-backdrop) !important;
+  pointer-events: none;
+}
+
+/* ─── Main content wrapper — sits above backdrop ───────────────────── */
+.detailPageContent,
+.detailPageWrapperContent {
+  position: relative;
+  z-index: var(--z-content);
+  padding-top: clamp(220px, 40vh, 400px);  /* push content below fold */
+  padding-bottom: var(--abyss-space-3xl);
+  padding-left:  clamp(var(--abyss-space-lg), 6vw, 96px);
+  padding-right: clamp(var(--abyss-space-lg), 6vw, 96px);
+}
+
+/* ─── Hero row: poster + metadata ──────────────────────────────────── */
+.detailPagePrimaryContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-end !important;
+  gap: clamp(24px, 4vw, 56px) !important;
+  margin-bottom: var(--abyss-space-xl) !important;
+}
+
+/* ─── Poster ────────────────────────────────────────────────────────── */
+.detailImageContainer img,
+.itemDetailPage .primaryImageContainer img,
+.detailImage {
+  width:  clamp(140px, 14vw, 220px) !important;
+  aspect-ratio: 2 / 3 !important;
+  object-fit: cover !important;
+  border-radius: var(--abyss-radius-lg) !important;
+  flex-shrink: 0 !important;
+
+  /* Depth shadow + ambient glow ring */
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.80),
+    0  8px 24px rgba(0, 0, 0, 0.60),
+    0  0  48px var(--abyss-ambient-primary),
+    0  0   1px rgba(255, 255, 255, 0.08) inset;
+
+  /* Poster entrance */
+  animation: abyss-poster-float-in var(--abyss-dur-cinematic) var(--abyss-ease-spring) 80ms both;
+}
+
+@keyframes abyss-poster-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.92);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* ─── Idle float — class applied by abyss.js after float-in ends ──── */
+/*
+ * We do NOT stack both animations on the same element.
+ * Two animations animating `transform` fight — the later listed wins,
+ * dropping scale(1) from float-in's final state.
+ * abyss.js listens for `animationend` on the poster and adds
+ * `.abyss-poster-resting` at that point, which triggers the loop below.
+ */
+.detailImageContainer img.abyss-poster-resting {
+  animation: abyss-poster-idle 8s var(--abyss-ease-in-out) 0ms infinite alternate !important;
+}
+
+@keyframes abyss-poster-idle {
+  /* scale(1) is explicit so it matches float-in's final state exactly */
+  from { transform: scale(1) translateY(  0px); }
+  to   { transform: scale(1) translateY(-5px); }
+}
+
+/* ─── Metadata column ───────────────────────────────────────────────── */
+.detailPageIntroContent,
+.itemDetailPage .nameContainer {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--abyss-space-md) !important;
+}
+
+/* ─── Title ─────────────────────────────────────────────────────────── */
+.itemDetailPage .parentNameLink,
+.itemDetailPage .parentName {
+  font-size: 0.75em !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.10em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-purple) !important;
+  margin-bottom: 2px !important;
+}
+
+.itemDetailPage h3.itemName,
+.itemDetailPage h1,
+.detailPageTitle {
+  font-size: clamp(2rem, 5vw, 4.5rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--abyss-text-primary) !important;
+  text-shadow:
+    0 2px 24px rgba(0,0,0,0.80),
+    0 1px  4px rgba(0,0,0,0.60);
+  margin: 0 !important;
+}
+
+/* ─── Tagline ────────────────────────────────────────────────────────── */
+.itemDetailPage .tagline,
+.taglineContainer {
+  font-size: 1.05em !important;
+  font-style: italic !important;
+  font-weight: 300 !important;
+  color: var(--abyss-text-secondary) !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* ─── Ratings row: stars + community score ──────────────────────────── */
+.itemDetailPage .starRatingContainer,
+.communityRatingContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--abyss-space-sm);
+  font-size: 0.9em;
+  color: rgba(253, 224, 71, 1) !important;
+  font-weight: 600;
+}
+
+/* ─── Metadata pill row ─────────────────────────────────────────────── */
+.itemDetailPage .mediaInfoItems,
+.itemDetailPage .miscInfo {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--abyss-space-xs) !important;
+  align-items: center !important;
+  margin: 0 !important;
+}
+
+.itemDetailPage .endsAt,
+.itemDetailPage .runtime {
+  color: var(--abyss-text-muted) !important;
+  font-size: 0.8em !important;
+  font-weight: 500 !important;
+}
+
+/* ─── Genre chips ────────────────────────────────────────────────────── */
+.itemDetailPage .genreItem,
+.itemDetailPage .tagItem {
+  padding: 3px 10px !important;
+  border-radius: var(--abyss-radius-full) !important;
+  background: var(--abyss-depth-3) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  font-size: 0.72em !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-secondary) !important;
+  transition: background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.itemDetailPage .genreItem:hover {
+  background: rgba(124, 58, 237, 0.20) !important;
+  border-color: rgba(124, 58, 237, 0.40) !important;
+  color: rgba(167, 139, 250, 1) !important;
+}
+
+/* ─── Action buttons ─────────────────────────────────────────────────── */
+.itemDetailPage .detailButtonsContainer,
+.detailButtonsRow {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--abyss-space-sm) !important;
+  margin-top: var(--abyss-space-sm) !important;
+}
+
+/* ─── Overview section ───────────────────────────────────────────────── */
+.itemDetailPage .overview-section {
+  max-width: 72ch !important;
+  margin-top: var(--abyss-space-xl) !important;
+}
+
+.itemDetailPage .overview {
+  font-size: 1.05em !important;
+  line-height: 1.80 !important;
+  color: var(--abyss-text-secondary) !important;
+  font-weight: 350 !important;
+}
+
+/* ─── Dividers between sections ──────────────────────────────────────── */
+.itemDetailPage .detailSection + .detailSection {
+  margin-top: var(--abyss-space-xl) !important;
+  padding-top: var(--abyss-space-xl) !important;
+  border-top: 1px solid var(--abyss-glass-border) !important;
+}
+
+/* ─── Section headings ───────────────────────────────────────────────── */
+.itemDetailPage .sectionTitle,
+.detailSection > h2,
+.detailSection > h3 {
+  font-size: 0.7em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.10em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-muted) !important;
+  margin-bottom: var(--abyss-space-md) !important;
+}
+
+/* ─── Cast row ───────────────────────────────────────────────────────── */
+.itemDetailPage .personContainer .card {
+  text-align: center;
+}
+
+.itemDetailPage .personContainer .cardImage {
+  border-radius: var(--abyss-radius-full) !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.personContainer .cardText {
+  font-size: 0.78em !important;
+  font-weight: 600 !important;
+}
+.personContainer .cardTextSecondary {
+  font-size: 0.70em !important;
+  color: var(--abyss-purple) !important;
+}
+
+/* ─── More Like This ─────────────────────────────────────────────────── */
+.itemDetailPage .similarItemsSection {
+  margin-top: var(--abyss-space-2xl) !important;
+}
+
+/* ── navigation.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — navigation.css
+ * Glass header bar, side drawer, tab navigation, and search UI.
+ * Ambient glow pulses softly behind nav elements.
+ */
+
+/* ─── Header bar ────────────────────────────────────────────────────── */
+.skinHeader,
+.headerTop,
+.appHeader {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: var(--z-nav) !important;
+  height: 64px !important;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.40) 70%,
+    transparent          100%
+  ) !important;
+  backdrop-filter: var(--abyss-glass-blur-sm) !important;
+  -webkit-backdrop-filter: var(--abyss-glass-blur-sm) !important;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  padding: 0 clamp(var(--abyss-space-md), 4vw, var(--abyss-space-xl)) !important;
+
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--abyss-space-md) !important;
+
+  transition:
+    background var(--abyss-dur-slow)   var(--abyss-ease-out),
+    box-shadow var(--abyss-dur-normal) var(--abyss-ease-out) !important;
+}
+
+/* Scrolled state: becomes more opaque */
+.skinHeader.scrolled,
+.appHeader.scrolled {
+  background: rgba(0, 0, 0, 0.90) !important;
+  border-bottom-color: var(--abyss-glass-border) !important;
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.60) !important;
+}
+
+/* ─── Logo / brand mark ─────────────────────────────────────────────── */
+.headerLogo,
+.headerLogoLink img {
+  height: 28px !important;
+  width: auto !important;
+  opacity: 0.92;
+  transition: opacity var(--abyss-dur-fast) var(--abyss-ease-out);
+}
+.headerLogo:hover,
+.headerLogoLink:hover img {
+  opacity: 1;
+}
+
+/* ─── Header icon buttons ───────────────────────────────────────────── */
+.headerButton,
+.paper-icon-button-light,
+.headerCastButton,
+.btnCast,
+.btnUserMenu {
+  color: var(--abyss-text-secondary) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  width: 38px !important;
+  height: 38px !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    color      var(--abyss-dur-fast) var(--abyss-ease-out),
+    background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.headerButton:hover,
+.paper-icon-button-light:hover {
+  color: var(--abyss-text-primary) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* ─── Search bar ────────────────────────────────────────────────────── */
+.searchFields,
+.headerSearchInput {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  color: var(--abyss-text-primary) !important;
+  padding: 6px 16px 6px 40px !important;
+  font-size: 0.9em !important;
+  font-weight: 400 !important;
+  width: 220px;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    width      var(--abyss-dur-normal) var(--abyss-ease-spring),
+    background var(--abyss-dur-fast)   var(--abyss-ease-out),
+    border     var(--abyss-dur-fast)   var(--abyss-ease-out) !important;
+}
+.searchFields:focus,
+.headerSearchInput:focus {
+  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(124, 58, 237, 0.50) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14) !important;
+  width: 320px;
+  outline: none !important;
+}
+.searchFields::placeholder {
+  color: var(--abyss-text-ghost) !important;
+}
+
+/* ─── Side drawer ───────────────────────────────────────────────────── */
+.mainDrawer,
+.navDrawer {
+  background: rgba(4, 4, 8, 0.96) !important;
+  backdrop-filter: saturate(160%) blur(24px) !important;
+  -webkit-backdrop-filter: saturate(160%) blur(24px) !important;
+  border-right: 1px solid var(--abyss-glass-border) !important;
+  width: 240px !important;
+}
+
+/* Drawer ambient glow strip */
+.mainDrawer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(124, 58, 237, 0.30) 40%,
+    rgba(37,  99, 235, 0.20) 60%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ─── Drawer navigation links ───────────────────────────────────────── */
+.navMenuOption,
+.sidebarTab,
+.navDrawer a {
+  color: var(--abyss-text-secondary) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  margin: 2px var(--abyss-space-sm) !important;
+  padding: 10px var(--abyss-space-md) !important;
+  font-size: 0.88em !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+
+  display: flex;
+  align-items: center;
+  gap: var(--abyss-space-md);
+
+  transition:
+    color      var(--abyss-dur-fast) var(--abyss-ease-out),
+    background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+
+.navMenuOption:hover,
+.sidebarTab:hover {
+  color: var(--abyss-text-primary) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.navMenuOption.selected,
+.navMenuOption[aria-selected="true"],
+.sidebarTab.is-selected {
+  color: rgba(167, 139, 250, 1) !important;
+  background: rgba(124, 58, 237, 0.14) !important;
+  font-weight: 600 !important;
+}
+
+/* Active indicator stripe */
+.navMenuOption.selected::before,
+.sidebarTab.is-selected::before {
+  content: '';
+  position: absolute;
+  left: var(--abyss-space-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: var(--abyss-radius-full);
+  background: var(--abyss-gradient);
+}
+.navMenuOption { position: relative; }
+
+/* ─── Drawer section label ──────────────────────────────────────────── */
+.navSectionHeader,
+.sidebarSectionTitle {
+  font-size: 0.65em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-ghost) !important;
+  padding: var(--abyss-space-md) var(--abyss-space-md) var(--abyss-space-xs) !important;
+}
+
+/* ─── View menu tabs (Libraries, Browse, etc.) ───────────────────────── */
+.viewMenuBar,
+.libraryMenuBar {
+  background: transparent !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+}
+
+.viewMenuBarTab,
+.emby-tab-button {
+  font-size: 0.82em !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-muted) !important;
+  border-bottom: 2px solid transparent !important;
+  padding: 12px 16px !important;
+  border-radius: 0 !important;
+
+  transition:
+    color        var(--abyss-dur-fast) var(--abyss-ease-out),
+    border-color var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+
+.viewMenuBarTab:hover,
+.emby-tab-button:hover {
+  color: var(--abyss-text-primary) !important;
+}
+
+.viewMenuBarTab.is-active,
+.viewMenuBarTab[aria-selected="true"],
+.emby-tab-button.is-active {
+  color: var(--abyss-text-primary) !important;
+  border-bottom-color: var(--abyss-purple) !important;
+}
+
+/* Animated tab indicator */
+.emby-tabs-slider {
+  height: 2px !important;
+  background: var(--abyss-gradient) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  transition: left var(--abyss-dur-normal) var(--abyss-ease-spring) !important;
+}
+
+/* ─── User avatar ───────────────────────────────────────────────────── */
+.headerUserButton img,
+.userAvatar {
+  border-radius: var(--abyss-radius-full) !important;
+  border: 2px solid rgba(124, 58, 237, 0.50) !important;
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.30) !important;
+  transition: box-shadow var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.headerUserButton:hover img {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.55) !important;
+}
+
+/* ── dialogs.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — dialogs.css
+ * Frosted glass dialogs with acrylic tint, soft borders, inner highlight,
+ * outer shadow, and film-grain texture. Soft-rise entrance animation.
+ */
+
+/* ─── Backdrop scrim ────────────────────────────────────────────────── */
+.dialogBackdrop,
+.mdl-overlay,
+.dialog-backdrop {
+  background: rgba(0, 0, 0, 0.82) !important;
+  backdrop-filter: blur(12px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
+  animation: abyss-scrim-in var(--abyss-dur-normal) var(--abyss-ease-out) both;
+}
+
+@keyframes abyss-scrim-in {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(12px) saturate(120%); }
+}
+
+/* ─── Dialog box ────────────────────────────────────────────────────── */
+.dialog,
+.focuscontainer .dialog,
+paper-dialog,
+.mdl-dialog {
+  background: var(--abyss-glass-bg-heavy) !important;
+  backdrop-filter: var(--abyss-glass-blur-lg) !important;
+  -webkit-backdrop-filter: var(--abyss-glass-blur-lg) !important;
+
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-xl) !important;
+
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.70),
+    0 12px 32px rgba(0, 0, 0, 0.50),
+    0  2px  8px rgba(0, 0, 0, 0.40),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 0 60px rgba(124, 58, 237, 0.04) !important;
+
+  color: var(--abyss-text-primary) !important;
+  overflow: hidden !important;
+
+  /* Film grain via repeating noise pattern */
+  position: relative;
+}
+
+/* Inner highlight top edge */
+.dialog::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.12) 30%,
+    rgba(255, 255, 255, 0.12) 70%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Film grain overlay */
+.dialog::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: var(--abyss-grain-opacity);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Dialog header ─────────────────────────────────────────────────── */
+.dialogHeader,
+.formDialogHeader,
+.dialog h2,
+.dialog .dialogTitle {
+  background: transparent !important;
+  padding: var(--abyss-space-xl) var(--abyss-space-xl) var(--abyss-space-md) !important;
+  font-size: 1.20em !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--abyss-text-primary) !important;
+  border-bottom: none !important;
+}
+
+/* ─── Dialog content area ───────────────────────────────────────────── */
+.dialogContent,
+.formDialogContent,
+.dialog .dialogContentInner {
+  padding: 0 var(--abyss-space-xl) var(--abyss-space-xl) !important;
+  color: var(--abyss-text-secondary) !important;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Dialog footer / action buttons ────────────────────────────────── */
+.formDialogFooter,
+.dialogButtons,
+.dialog .dialogActions {
+  padding: var(--abyss-space-md) var(--abyss-space-xl) var(--abyss-space-xl) !important;
+  border-top: 1px solid var(--abyss-glass-border) !important;
+  background: transparent !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: var(--abyss-space-sm) !important;
+}
+
+/* Dialog confirm button */
+.dialog .btnSubmit,
+.dialog [data-action="ok"],
+.formDialogFooter .btnSubmit {
+  background: var(--abyss-gradient) !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: var(--abyss-radius-md) !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.35) !important;
+}
+
+/* Dialog cancel button */
+.dialog .btnCancel,
+.dialog [data-action="cancel"],
+.formDialogFooter .btnCancel {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  color: var(--abyss-text-secondary) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  padding: 10px 24px !important;
+  font-weight: 500 !important;
+}
+
+/* ─── Context menu ──────────────────────────────────────────────────── */
+.contextMenu,
+.paper-menu,
+.emby-select-withcolor {
+  background: rgba(10, 10, 18, 0.94) !important;
+  backdrop-filter: saturate(180%) blur(28px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(28px) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-lg) !important;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.70),
+    0  4px 12px rgba(0, 0, 0, 0.50),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  overflow: hidden !important;
+}
+
+.contextMenuItem,
+.paper-item,
+.listItem {
+  color: var(--abyss-text-secondary) !important;
+  font-size: 0.88em !important;
+  font-weight: 500 !important;
+  padding: 10px var(--abyss-space-md) !important;
+  border-radius: 0 !important;
+
+  transition:
+    background var(--abyss-dur-fast) var(--abyss-ease-out),
+    color      var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+
+.contextMenuItem:hover,
+.paper-item:hover {
+  background: rgba(124, 58, 237, 0.14) !important;
+  color: var(--abyss-text-primary) !important;
+}
+
+.contextMenuItem:first-child { border-radius: var(--abyss-radius-lg) var(--abyss-radius-lg) 0 0 !important; }
+.contextMenuItem:last-child  { border-radius: 0 0 var(--abyss-radius-lg) var(--abyss-radius-lg) !important; }
+
+/* ─── Toast notification ────────────────────────────────────────────── */
+.toast {
+  background: rgba(14, 14, 24, 0.94) !important;
+  backdrop-filter: saturate(160%) blur(20px) !important;
+  -webkit-backdrop-filter: saturate(160%) blur(20px) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.60),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  color: var(--abyss-text-primary) !important;
+  font-weight: 500 !important;
+  font-size: 0.88em !important;
+  padding: 12px var(--abyss-space-md) !important;
+
+  /* Accent stripe at left */
+  border-left: 3px solid var(--abyss-purple) !important;
+}
+
+/* ─── Lightbox / fullscreen image overlay ───────────────────────────── */
+.mediaContainer,
+.slideshowPage {
+  background: rgba(0, 0, 0, 0.96) !important;
+}
+
+/* ─── Dropdown selects ──────────────────────────────────────────────── */
+.selectContainer select,
+.emby-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.4)'/%3E%3C/svg%3E")
+    no-repeat right 12px center,
+    var(--abyss-depth-2) !important;
+  padding-right: 36px !important;
+}
+
+/* ─── Checkboxes ────────────────────────────────────────────────────── */
+.emby-checkbox:checked,
+.checkboxContainer input[type="checkbox"]:checked {
+  accent-color: var(--abyss-purple) !important;
+}
+
+/* ─── Radio buttons ─────────────────────────────────────────────────── */
+input[type="radio"]:checked {
+  accent-color: var(--abyss-purple) !important;
+}
+
+/* ─── Sliders ───────────────────────────────────────────────────────── */
+input[type="range"] {
+  accent-color: var(--abyss-purple) !important;
+}
+input[type="range"]::-webkit-slider-thumb {
+  background: var(--abyss-gradient) !important;
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.50) !important;
+}
+
+/* ── player.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — player.css
+ * Theatre mode: UI fades away, only artwork + controls + subtitles remain.
+ * Cinematic OSD, progress bar, and volume controls.
+ */
+
+/* ─── Video container: full OLED black surround ─────────────────────── */
+.videoPlayerContainer,
+#videoPlayer,
+.htmlvideoplayer {
+  background: #000000 !important;
+}
+
+/* ─── Theatre mode: hide page chrome while playing ──────────────────── */
+body.theatre-mode .skinHeader,
+body.theatre-mode .mainDrawer,
+body.theatre-mode .viewMenuBar,
+body.theatre-mode .backgroundContainer {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity var(--abyss-dur-slow) var(--abyss-ease-out) !important;
+}
+
+/* Fade chrome back in on OSD hover */
+body.theatre-mode:has(.videoOsdBottom:hover) .skinHeader,
+body.theatre-mode.osd-visible .skinHeader {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ─── OSD wrapper ───────────────────────────────────────────────────── */
+.videoOsdBottom,
+.videoOsd {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.90) 0%,
+    rgba(0, 0, 0, 0.50) 60%,
+    transparent         100%
+  ) !important;
+  backdrop-filter: none !important;
+  padding: var(--abyss-space-md) var(--abyss-space-xl) var(--abyss-space-lg) !important;
+
+  /* Fade in/out smoothly */
+  opacity: 0;
+  transition: opacity var(--abyss-dur-slow) var(--abyss-ease-out) !important;
+}
+
+.videoOsdBottom.visible,
+.videoOsd.visible,
+.videoOsdBottom:hover,
+.videoOsd:hover {
+  opacity: 1 !important;
+}
+
+/* OSD top bar (title while playing) */
+.videoOsdTop,
+.nowPlayingTopContainer {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.80) 0%,
+    transparent         100%
+  ) !important;
+  padding: var(--abyss-space-lg) var(--abyss-space-xl) var(--abyss-space-xl) !important;
+  opacity: 0;
+  transition: opacity var(--abyss-dur-slow) var(--abyss-ease-out) !important;
+}
+.videoOsdTop.visible,
+.nowPlayingTopContainer.visible {
+  opacity: 1 !important;
+}
+
+/* ─── Now playing title in OSD ──────────────────────────────────────── */
+.nowPlayingText,
+.osdTitle,
+.videoOsdTop .osdProgressItem {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.1em !important;
+  letter-spacing: -0.02em !important;
+  color: var(--abyss-text-primary) !important;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.80) !important;
+}
+
+/* ─── Progress / seek bar ───────────────────────────────────────────── */
+.osdProgressbarContainer,
+.sliderContainer {
+  height: 4px !important;
+  border-radius: var(--abyss-radius-full) !important;
+  margin-bottom: var(--abyss-space-md) !important;
+  cursor: pointer;
+
+  transition: height var(--abyss-dur-fast) var(--abyss-ease-spring) !important;
+}
+.osdProgressbarContainer:hover,
+.sliderContainer:hover {
+  height: 6px !important;
+}
+
+/* Track */
+.osdProgressbar,
+.slider-background {
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  height: 100% !important;
+  position: relative;
+  overflow: visible;
+}
+
+/* Played portion */
+.osdProgressbarPlayed,
+.slider-range {
+  background: var(--abyss-gradient) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  height: 100% !important;
+  position: relative;
+}
+
+/* Buffered portion */
+.osdProgressbarBuffered,
+.slider-buffer {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+}
+
+/* Scrubber thumb */
+.osdProgressbarHandle,
+.slider-thumb,
+.mdl-slider::-webkit-slider-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: var(--abyss-radius-full) !important;
+  background: #fff !important;
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.60),
+    0 0 16px rgba(124, 58, 237, 0.50) !important;
+  border: 2px solid rgba(124, 58, 237, 0.80) !important;
+
+  transform: scale(0);
+  transition:
+    transform var(--abyss-dur-fast) var(--abyss-ease-spring),
+    box-shadow var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.osdProgressbarContainer:hover .osdProgressbarHandle,
+.sliderContainer:hover .slider-thumb {
+  transform: scale(1) !important;
+}
+
+/* ─── Chapter thumbnails on scrub hover ─────────────────────────────── */
+.chapterThumb {
+  border-radius: var(--abyss-radius-sm) !important;
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.70) !important;
+  overflow: hidden !important;
+}
+
+/* ─── OSD controls row ──────────────────────────────────────────────── */
+.osdControls,
+.videoOsdBottom .mediaControls {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--abyss-space-sm) !important;
+}
+
+/* OSD icon buttons */
+.osdControls .paper-icon-button-light,
+.osdControls .mediaButton,
+.btnOsdMenu,
+.btnAudio,
+.btnSubtitles {
+  color: rgba(255, 255, 255, 0.80) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  width: 40px !important;
+  height: 40px !important;
+  transition:
+    color      var(--abyss-dur-fast) var(--abyss-ease-out),
+    background var(--abyss-dur-fast) var(--abyss-ease-out),
+    transform  var(--abyss-dur-fast) var(--abyss-ease-spring) !important;
+}
+.osdControls .paper-icon-button-light:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.10) !important;
+}
+
+/* Play/pause button is larger + accent glow */
+.btnPause,
+.btnPlay.osdButton {
+  width: 52px !important;
+  height: 52px !important;
+  background: rgba(124, 58, 237, 0.20) !important;
+  border: 1px solid rgba(124, 58, 237, 0.30) !important;
+  border-radius: var(--abyss-radius-full) !important;
+  color: #fff !important;
+}
+.btnPause:hover,
+.btnPlay.osdButton:hover {
+  background: rgba(124, 58, 237, 0.40) !important;
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.40) !important;
+  transform: scale(1.08) !important;
+}
+
+/* ─── Volume control ────────────────────────────────────────────────── */
+.volumeSlider {
+  width: 80px !important;
+  transition: width var(--abyss-dur-normal) var(--abyss-ease-spring) !important;
+}
+.volumeSlider:hover {
+  width: 110px !important;
+}
+
+/* ─── Time display ──────────────────────────────────────────────────── */
+.osdTime,
+.nowPlayingTime,
+.positionSliderText {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.82em !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  color: rgba(255, 255, 255, 0.70) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* ─── Subtitles ─────────────────────────────────────────────────────── */
+.videoSubtitles,
+.subs-container {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1.1em !important;
+  font-weight: 500 !important;
+  line-height: 1.50 !important;
+  color: #fff !important;
+  text-shadow:
+    0 2px 8px rgba(0,0,0,0.90),
+    0 0  4px rgba(0,0,0,0.80) !important;
+  letter-spacing: 0.01em !important;
+  bottom: 80px !important;
+}
+
+/* ─── Picture-in-Picture / Mini player ───────────────────────────────── */
+.miniPlayer,
+.nowPlayingBar {
+  background: rgba(8, 8, 16, 0.94) !important;
+  backdrop-filter: saturate(160%) blur(20px) !important;
+  -webkit-backdrop-filter: saturate(160%) blur(20px) !important;
+  border-top: 1px solid var(--abyss-glass-border) !important;
+  color: var(--abyss-text-primary) !important;
+}
+
+/* ─── Next-up card ──────────────────────────────────────────────────── */
+.nextUpCard,
+.upNextContainer {
+  background: rgba(10, 10, 20, 0.90) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  border-radius: var(--abyss-radius-xl) !important;
+  box-shadow: var(--abyss-glass-shadow) !important;
+}
+
+/* ── library.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — library.css
+ * Immersive home library: full-width sections, breathing space,
+ * horizontal scroll rows, featured hero carousel, and genre chips.
+ */
+
+/* ─── Home page / library page wrapper ──────────────────────────────── */
+.homePage,
+.libraryPage,
+.itemsPage {
+  background: var(--abyss-void) !important;
+  padding-top: 64px !important;  /* clear the fixed nav */
+}
+
+/* ─── Library section (each horizontal row) ──────────────────────────── */
+.homeSection,
+.verticalSection {
+  margin-bottom: var(--abyss-space-2xl) !important;
+  padding: 0 clamp(var(--abyss-space-md), 5vw, var(--abyss-space-3xl)) !important;
+}
+
+/* ─── Section title row ─────────────────────────────────────────────── */
+.sectionTitleContainer,
+.sectionTitle-cards {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: var(--abyss-space-md) !important;
+}
+
+.sectionTitle,
+.sectionTitleText,
+.sectionTitleTextButton {
+  font-size: 0.68em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--abyss-text-muted) !important;
+}
+
+/* "See All" link */
+.sectionTitleButton,
+.viewAllButton {
+  font-size: 0.75em !important;
+  font-weight: 600 !important;
+  color: var(--abyss-purple) !important;
+  letter-spacing: 0.04em !important;
+  opacity: 0.80;
+  transition: opacity var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.sectionTitleButton:hover,
+.viewAllButton:hover {
+  opacity: 1;
+  color: rgba(167, 139, 250, 1) !important;
+}
+
+/* ─── Horizontal scroller ────────────────────────────────────────────── */
+.emby-scroller,
+.itemsContainer.scrollX {
+  scroll-behavior: smooth !important;
+  scroll-snap-type: x proximity !important;
+  -webkit-overflow-scrolling: touch !important;
+
+  /* Hide scrollbar but keep scrollability */
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+  padding-bottom: var(--abyss-space-sm) !important;
+}
+.emby-scroller::-webkit-scrollbar { display: none !important; }
+
+/* Items snap to nearest card */
+.emby-scroller .card,
+.itemsContainer.scrollX .card {
+  scroll-snap-align: start !important;
+}
+
+/* ─── Featured "Continue Watching" section — slightly larger cards ─── */
+.homeSectionContinueWatching .card,
+.continueWatching .card,
+.resumableItemsContainer .card {
+  --card-scale: 1.02;
+}
+
+/* Episode progress badge overlay */
+.homeSectionContinueWatching .itemProgressBarForeground {
+  background: var(--abyss-gradient) !important;
+}
+
+/* ─── Featured hero carousel ─────────────────────────────────────────── */
+.homePageCarousel,
+.mainSlider,
+.featuredItemsSlider {
+  position: relative;
+  width: 100% !important;
+  aspect-ratio: 21 / 9 !important;
+  overflow: hidden !important;
+  border-radius: 0 0 var(--abyss-radius-xl) var(--abyss-radius-xl) !important;
+  margin-bottom: var(--abyss-space-2xl) !important;
+}
+
+/* Hero slide image */
+.featuredItemsSlider .featuredItemsSlide-background,
+.carouselItem-background {
+  position: absolute !important;
+  inset: 0 !important;
+  background-size: cover !important;
+  background-position: center top !important;
+  filter: brightness(0.45) saturate(1.20) !important;
+  animation: abyss-hero-carousel-zoom 20s var(--abyss-ease-cinema) infinite alternate;
+}
+
+@keyframes abyss-hero-carousel-zoom {
+  from { transform: scale(1.00); }
+  to   { transform: scale(1.05); }
+}
+
+/* Hero slide gradient overlay */
+.featuredItemsSlider .featuredItemsSlide-background::after,
+.carouselItem-overlay {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.80) 0%,
+    rgba(0,0,0,0.40) 50%,
+    rgba(0,0,0,0.10) 100%
+  ),
+  linear-gradient(
+    to top,
+    rgba(0,0,0,0.90) 0%,
+    transparent 40%
+  );
+}
+
+/* Hero slide content */
+.featuredItemsSlider .featuredItemsSlide-info,
+.carouselItem-info {
+  position: absolute !important;
+  bottom: var(--abyss-space-2xl) !important;
+  left: clamp(var(--abyss-space-xl), 8vw, 120px) !important;
+  z-index: 2 !important;
+  max-width: 600px !important;
+}
+
+.featuredItemsSlider .featuredItemsSlide-name,
+.carouselItem-title {
+  font-size: clamp(2em, 5vw, 4em) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.05 !important;
+  color: var(--abyss-text-primary) !important;
+  text-shadow: 0 4px 32px rgba(0,0,0,0.70) !important;
+  margin-bottom: var(--abyss-space-md) !important;
+}
+
+/* Carousel dot indicators */
+.featuredItemsSlider .paging-button,
+.carouselPager .pageDot {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: var(--abyss-radius-full) !important;
+  background: rgba(255,255,255,0.30) !important;
+  border: none !important;
+  transition:
+    width      var(--abyss-dur-normal) var(--abyss-ease-spring),
+    background var(--abyss-dur-fast)   var(--abyss-ease-out) !important;
+}
+.featuredItemsSlider .paging-button.is-active,
+.pageDot.is-active {
+  width: 24px !important;
+  background: var(--abyss-purple) !important;
+}
+
+/* ─── Genre chips row ────────────────────────────────────────────────── */
+.genreSection,
+.genresContainer {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--abyss-space-sm) !important;
+  margin-bottom: var(--abyss-space-xl) !important;
+  padding: 0 clamp(var(--abyss-space-md), 5vw, var(--abyss-space-3xl)) !important;
+}
+
+.genreButton,
+.genreItem {
+  padding: 8px 16px !important;
+  border-radius: var(--abyss-radius-full) !important;
+  background: var(--abyss-depth-2) !important;
+  border: 1px solid var(--abyss-glass-border) !important;
+  font-size: 0.80em !important;
+  font-weight: 600 !important;
+  color: var(--abyss-text-secondary) !important;
+  cursor: pointer;
+  white-space: nowrap !important;
+
+  transition:
+    background  var(--abyss-dur-fast) var(--abyss-ease-out),
+    color       var(--abyss-dur-fast) var(--abyss-ease-out),
+    border      var(--abyss-dur-fast) var(--abyss-ease-out),
+    transform   var(--abyss-dur-fast) var(--abyss-ease-spring),
+    box-shadow  var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.genreButton:hover,
+.genreItem:hover {
+  background: rgba(124, 58, 237, 0.18) !important;
+  border-color: rgba(124, 58, 237, 0.40) !important;
+  color: rgba(167, 139, 250, 1) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25) !important;
+}
+.genreButton.active,
+.genreItem.selected {
+  background: rgba(124, 58, 237, 0.30) !important;
+  border-color: rgba(124, 58, 237, 0.60) !important;
+  color: rgba(167, 139, 250, 1) !important;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.30) !important;
+}
+
+/* ─── Sort / filter bar ─────────────────────────────────────────────── */
+.filterRow,
+.sortContainer {
+  display: flex !important;
+  gap: var(--abyss-space-sm) !important;
+  align-items: center !important;
+  padding: var(--abyss-space-md) clamp(var(--abyss-space-md), 5vw, var(--abyss-space-3xl)) !important;
+  background: rgba(0,0,0,0.30) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+  position: sticky !important;
+  top: 64px !important;
+  z-index: calc(var(--z-nav) - 1) !important;
+}
+
+/* ─── Grid view ─────────────────────────────────────────────────────── */
+.itemsContainer.itemsGrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+  gap: var(--abyss-space-md) !important;
+  padding: var(--abyss-space-lg) clamp(var(--abyss-space-md), 5vw, var(--abyss-space-3xl)) !important;
+}
+
+/* ─── List view ─────────────────────────────────────────────────────── */
+.itemsContainer.itemsList .listItem {
+  padding: var(--abyss-space-md) !important;
+  border-radius: var(--abyss-radius-md) !important;
+  border-bottom: 1px solid var(--abyss-glass-border) !important;
+  background: transparent !important;
+  transition: background var(--abyss-dur-fast) var(--abyss-ease-out) !important;
+}
+.itemsContainer.itemsList .listItem:hover {
+  background: rgba(124, 58, 237, 0.06) !important;
+}
+
+/* ─── Empty state ───────────────────────────────────────────────────── */
+.emptyMessage,
+.noItemsMessage {
+  text-align: center !important;
+  padding: var(--abyss-space-3xl) var(--abyss-space-xl) !important;
+  color: var(--abyss-text-muted) !important;
+}
+.emptyMessage::before {
+  content: '🎬';
+  display: block;
+  font-size: 3em;
+  margin-bottom: var(--abyss-space-md);
+}
+
+/* ── effects.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — effects.css
+ * Optional cinematic overlays: film grain, bloom, vignette, and fade.
+ * All effects stay below 3% opacity — barely perceptible, just expensive.
+ * Each effect is opt-in via a class on <body> toggled by abyss.js.
+ */
+
+/* ─── Film Grain ────────────────────────────────────────────────────── */
+/*
+ * Applied as a fixed overlay using an SVG feTurbulence filter.
+ * Animated at ~12fps for authentic analog grain.
+ * Enable: <body class="abyss-grain">
+ */
+
+body.abyss-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+
+  /* SVG noise texture */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: var(--abyss-grain-opacity);    /* 0.025 — ~2.5% */
+  mix-blend-mode: overlay;
+
+  /* Animate grain position at ~12fps */
+  animation: abyss-grain-shift 0.08s steps(1) infinite;
+  will-change: background-position;
+}
+
+@keyframes abyss-grain-shift {
+  0%  { background-position:   0px   0px; }
+  10% { background-position: -12px  -8px; }
+  20% { background-position:   8px  16px; }
+  30% { background-position: -20px   4px; }
+  40% { background-position:  15px -12px; }
+  50% { background-position:  -4px  20px; }
+  60% { background-position:  18px   8px; }
+  70% { background-position: -10px -16px; }
+  80% { background-position:   6px  12px; }
+  90% { background-position: -16px  -4px; }
+}
+
+/* Disable grain during video playback (distracting) */
+body.abyss-grain.is-playing::before {
+  opacity: 0 !important;
+}
+
+/* ─── Bloom ─────────────────────────────────────────────────────────── */
+/*
+ * Soft light bloom around bright elements.
+ * CSS-only approximation using a blurred overlay.
+ * Enable: <body class="abyss-bloom">
+ */
+
+body.abyss-bloom::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-effects);
+  pointer-events: none;
+  opacity: var(--abyss-bloom-opacity);    /* 0.018 — ~1.8% */
+  mix-blend-mode: screen;
+
+  /* Radial glow: concentrates at viewport centre */
+  background: radial-gradient(
+    ellipse 60% 50% at center,
+    rgba(180, 140, 255, 1) 0%,
+    rgba(100, 80, 200, 0.5) 30%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  animation: abyss-bloom-pulse 6s var(--abyss-ease-in-out) infinite alternate;
+  will-change: opacity;
+}
+
+@keyframes abyss-bloom-pulse {
+  from { opacity: var(--abyss-bloom-opacity); }
+  to   { opacity: calc(var(--abyss-bloom-opacity) * 1.6); }
+}
+
+/* ─── Vignette ──────────────────────────────────────────────────────── */
+/*
+ * Screen-edge darkening. Always present on the backdrop layer (backdrop.css),
+ * but this adds an extra UI-level vignette for detail pages.
+ * Enable: <body class="abyss-vignette">
+ */
+
+body.abyss-vignette .detailPageContent::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse var(--abyss-vignette-size) var(--abyss-vignette-size) at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* ─── Cinematic Black Bars (letterbox) ──────────────────────────────── */
+/*
+ * 2.39:1 cinema bars during video playback.
+ * Enable: <body class="abyss-letterbox">
+ * Removed when paused / OSD visible.
+ */
+
+body.abyss-letterbox .videoPlayerContainer::before,
+body.abyss-letterbox .videoPlayerContainer::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12%;           /* ~2.39:1 crop on 16:9 */
+  background: #000;
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity var(--abyss-dur-slow) var(--abyss-ease-out);
+}
+body.abyss-letterbox .videoPlayerContainer::before { top: 0; }
+body.abyss-letterbox .videoPlayerContainer::after  { bottom: 0; }
+
+body.abyss-letterbox.osd-visible .videoPlayerContainer::before,
+body.abyss-letterbox.osd-visible .videoPlayerContainer::after {
+  opacity: 0;
+}
+
+/* ─── Cinematic Fade (page transitions) ─────────────────────────────── */
+/*
+ * When JS triggers a page change, this class creates a
+ * full-screen black flash for a true cinema-reel feel.
+ * Class: .abyss-cinematic-fade (applied by abyss.js)
+ */
+
+.abyss-cinematic-fade-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-effects) - 1);
+  background: #000;
+  pointer-events: none;
+  opacity: 0;
+  animation: abyss-cinema-flash var(--abyss-dur-slow) var(--abyss-ease-in-out) both;
+}
+
+@keyframes abyss-cinema-flash {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.85; }
+  70%  { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+/* ─── Ambient Glow: poster aura (per-page) ──────────────────────────── */
+/*
+ * Soft colour halo behind each poster on the detail page.
+ * Colour is dynamically updated by abyss.js extracting from artwork.
+ * The CSS vars --abyss-ambient-* are set inline by JS.
+ */
+
+.abyss-ambient-glow {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    var(--abyss-ambient-primary)   0%,
+    var(--abyss-ambient-secondary) 40%,
+    transparent                    70%
+  );
+  filter: blur(48px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
+  transition:
+    background var(--abyss-dur-cinematic) var(--abyss-ease-cinema),
+    opacity    var(--abyss-dur-cinematic) var(--abyss-ease-cinema);
+}
+
+/* ─── Holographic shimmer on active badge ───────────────────────────── */
+.mediaInfoItem[title*="Dolby Vision"],
+.mediaInfoItem[title*="IMAX"] {
+  position: relative;
+  overflow: hidden;
+}
+.mediaInfoItem[title*="Dolby Vision"]::before,
+.mediaInfoItem[title*="IMAX"]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 70%
+  );
+  animation: abyss-holo-shimmer 3s var(--abyss-ease-in-out) infinite;
+}
+
+@keyframes abyss-holo-shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(300%); }
+}
+
+/* ─── Focus ring: cinematic purple glow ─────────────────────────────── */
+:focus-visible {
+  outline: none !important;
+  box-shadow:
+    0 0 0 2px var(--abyss-void),
+    0 0 0 4px rgba(124, 58, 237, 0.70),
+    0 0 12px rgba(124, 58, 237, 0.30) !important;
+  border-radius: var(--abyss-radius-sm) !important;
+}
+
+/* ─── Skeleton loading shimmer ──────────────────────────────────────── */
+.abyss-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--abyss-depth-1) 0%,
+    var(--abyss-depth-3) 50%,
+    var(--abyss-depth-1) 100%
+  ) !important;
+  background-size: 300% 100% !important;
+  animation: abyss-skeleton-pulse 1.8s var(--abyss-ease-in-out) infinite;
+  border-radius: var(--abyss-radius-sm) !important;
+}
+
+@keyframes abyss-skeleton-pulse {
+  from { background-position: 100% 50%; }
+  to   { background-position: -100% 50%; }
+}
+
+/* ─── "Now playing" progress glow on mini-player ───────────────────── */
+.nowPlayingBar .itemProgressBarForeground,
+.miniPlayer .itemProgressBarForeground {
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.60) !important;
+}
+
+/* ─── Reduce all effects when prefers-reduced-motion ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  body.abyss-grain::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  body.abyss-bloom::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+  .mediaInfoItem[title*="Dolby Vision"]::before,
+  .mediaInfoItem[title*="IMAX"]::before {
+    animation: none !important;
+  }
+  .abyss-cinematic-fade-overlay {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}
+
+/* ── performance.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — performance.css
+ * GPU-compositing hints, will-change budgets, contain declarations,
+ * and strategies to keep the theme fast on all devices.
+ *
+ * Rules:
+ *  - Only transform + opacity get animated (GPU-native)
+ *  - box-shadow and filter are never transitioned on large elements
+ *  - will-change is applied sparingly — it costs VRAM
+ *  - contain: layout/style on scroll containers prevents reflow cascade
+ */
+
+/* ─── GPU layer hints: applied only to frequently animated elements ─── */
+
+/* Cards animate on hover — reserve a GPU layer per row,
+   not per card (cost-effective) */
+.emby-scroller,
+.itemsContainer.scrollX {
+  contain: layout style !important;
+  will-change: scroll-position;
+}
+
+/* Backdrop is always animating */
+.backdropImage,
+.itemBackdropImage {
+  will-change: transform;
+  transform: translateZ(0);       /* force compositing */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Cards hoist to GPU only on hover — avoids wasting VRAM at rest */
+.card:hover .cardContent {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Dialog animations */
+.dialog {
+  will-change: transform, opacity, filter;
+  transform: translateZ(0);
+}
+
+/* OSD is overlaid & frequently faded */
+.videoOsdBottom,
+.videoOsd,
+.videoOsdTop {
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* ─── Contain: reduce reflow surface ───────────────────────────────── */
+.card,
+.cardBox {
+  contain: layout style paint !important;
+}
+
+.verticalSection,
+.homeSection {
+  contain: layout style !important;
+}
+
+.dialog {
+  contain: layout style paint !important;
+}
+
+/* ─── Limit expensive backdrop-filter to critical elements only ────── */
+/* Main glass surfaces that need blur */
+.skinHeader,
+.mainDrawer,
+.dialog,
+.contextMenu,
+.toast,
+.videoOsd:not(.hidden) {
+  /* backdrop-filter already declared in respective CSS files */
+  /* This rule centralises the isolation context required for it to work */
+  isolation: isolate;
+  -webkit-isolation: isolate;
+}
+
+/* Suppress backdrop-filter on low-end / Save Data mode */
+@media (prefers-reduced-data: reduce) {
+  .skinHeader,
+  .mainDrawer,
+  .dialog,
+  .contextMenu,
+  .toast {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--abyss-depth-3) !important;
+  }
+}
+
+/* ─── Image rendering ───────────────────────────────────────────────── */
+img,
+.backdropImage,
+.cardImage {
+  image-rendering: auto;         /* browser picks best */
+  decoding: async;               /* non-blocking decode */
+}
+
+/* Very small thumbnails: crisp render */
+.cardImageContainer img[height="30"],
+.cardImageContainer img[height="40"] {
+  image-rendering: crisp-edges;
+}
+
+/* ─── Font rendering ────────────────────────────────────────────────── */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headlines are fine with auto — avoids blurry large text on some GPUs */
+h1, h2, .detailPageTitle, .featuredItemsSlide-name {
+  -webkit-font-smoothing: auto;
+  text-rendering: auto;
+}
+
+/* ─── Layer budgeting ───────────────────────────────────────────────── */
+/* Remove will-change after animation completes (JS does this,
+   but CSS fallback ensures layers don't persist indefinitely) */
+.card:not(:hover) .cardContent {
+  will-change: auto !important;
+}
+.dialog:not(.open) {
+  will-change: auto !important;
+}
+
+/* ─── Scroll performance ────────────────────────────────────────────── */
+.scrollY,
+.mainAnimatedPages,
+.pageTabContent {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;   /* prevents page pull-to-refresh bleed */
+}
+
+/* ─── Paint containment on stat-heavy rows ──────────────────────────── */
+.itemsContainer {
+  contain: layout style !important;
+}
+
+/* ─── prefers-reduced-motion: kill all animations + transitions ─────── */
+/* (Also handled in variables.css by setting all durations to 0ms,
+   but this belt-and-suspenders approach handles CSS keyframes too) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .backdropImage,
+  .itemBackdropImage {
+    animation: none !important;
+  }
+
+  .card:hover {
+    transform: none !important;
+  }
+
+  .detailImageContainer img {
+    animation: abyss-poster-float-in var(--abyss-dur-cinematic) var(--abyss-ease-spring) both !important;
+    /* Remove idle float */
+  }
+}
+
+/* ─── Hardware decode hint for video ────────────────────────────────── */
+video {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* ─── Avoid layout thrash on item count badges ──────────────────────── */
+.cardIndicators {
+  contain: layout paint !important;
+  pointer-events: none;
+}
+
+/* ─── CSS custom property change batching hint ──────────────────────── */
+/* Variables that JS updates at runtime — flagging them avoids
+   re-calculating the full cascade on each RAF tick */
+:root {
+  transition:
+    --abyss-ambient-primary   var(--abyss-dur-cinematic) var(--abyss-ease-cinema),
+    --abyss-ambient-secondary var(--abyss-dur-cinematic) var(--abyss-ease-cinema),
+    --abyss-ambient-accent    var(--abyss-dur-cinematic) var(--abyss-ease-cinema);
+}
+/* Note: CSS variable transitions require @property registration (see abyss.js) */
+
+/* ── mobile.css ─────────────────────────────────────────── */
+/*
+ * Abyss Cinematic Edition — mobile.css
+ * Mobile-first overrides, touch targets, swipe-optimised carousels,
+ * and TV / large-screen adaptations.
+ */
+
+/* ─── Phones: ≤ 640px ────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Nav height */
+  .skinHeader,
+  .appHeader { height: 54px !important; }
+
+  /* Padding rhythm */
+  .homeSection,
+  .verticalSection {
+    padding: 0 var(--abyss-space-md) !important;
+    margin-bottom: var(--abyss-space-xl) !important;
+  }
+
+  /* Carousel: full-width, taller on mobile */
+  .homePageCarousel,
+  .mainSlider,
+  .featuredItemsSlider {
+    aspect-ratio: 16 / 10 !important;
+    border-radius: 0 !important;
+    margin-bottom: var(--abyss-space-xl) !important;
+  }
+
+  /* Hero detail: stack poster above metadata */
+  .detailPagePrimaryContainer {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: var(--abyss-space-lg) !important;
+    padding-top: 140px !important;
+  }
+
+  .detailImageContainer img,
+  .detailImage {
+    width: 140px !important;
+  }
+
+  .itemDetailPage h3.itemName,
+  .itemDetailPage h1,
+  .detailPageTitle {
+    font-size: 2rem !important;
+  }
+
+  /* Action buttons: full width on small screens */
+  .detailButtonsContainer,
+  .detailButtonsRow {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .detailButton,
+  .btnPlay,
+  .btnResume {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Grid: 2 columns */
+  .itemsContainer.itemsGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--abyss-space-sm) !important;
+    padding: var(--abyss-space-md) !important;
+  }
+
+  /* Cards: no tilt on mobile (too expensive) */
+  .card:hover {
+    transform: translateY(-4px) scale(1.02) !important;
+  }
+
+  /* Disable backdrop zoom on mobile — too heavy */
+  .backdropImage {
+    animation: none !important;
+    transform: scale(1.04) !important;
+  }
+
+  /* Touch targets: minimum 44px */
+  .navMenuOption,
+  .sidebarTab,
+  .emby-tab-button,
+  .headerButton {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  /* OSD controls: larger on mobile */
+  .osdControls .paper-icon-button-light,
+  .osdControls .mediaButton {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .btnPause,
+  .btnPlay.osdButton {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  /* Subtitles: larger on mobile */
+  .videoSubtitles,
+  .subs-container {
+    font-size: 1.3em !important;
+    bottom: 60px !important;
+  }
+
+  /* Dialog: full-screen bottom sheet */
+  .dialog,
+  .formDialog {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    max-height: 90vh !important;
+    border-radius: var(--abyss-radius-xl) var(--abyss-radius-xl) 0 0 !important;
+    overflow-y: auto !important;
+    animation: abyss-sheet-in var(--abyss-dur-slow) var(--abyss-ease-spring) both;
+  }
+
+  @keyframes abyss-sheet-in {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Sheet drag handle */
+  .dialog::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.20);
+    border-radius: var(--abyss-radius-full);
+    margin: var(--abyss-space-md) auto 0;
+    top: auto;
+    left: auto;
+    right: auto;
+    position: relative;
+  }
+
+  /* Side drawer: full-height overlay on mobile */
+  .mainDrawer {
+    width: 80vw !important;
+    max-width: 300px !important;
+  }
+
+  /* Section font adjustments */
+  .sectionTitle { font-size: 0.60em !important; }
+}
+
+/* ─── Tablet: 641px–1024px ───────────────────────────────────────────── */
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  .homeSection,
+  .verticalSection {
+    padding: 0 clamp(var(--abyss-space-lg), 4vw, var(--abyss-space-xl)) !important;
+  }
+
+  .itemsContainer.itemsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+  }
+
+  .itemDetailPage h3.itemName,
+  .itemDetailPage h1 {
+    font-size: clamp(1.8rem, 4vw, 3rem) !important;
+  }
+
+  .homePageCarousel,
+  .featuredItemsSlider {
+    aspect-ratio: 21 / 9 !important;
+  }
+}
+
+/* ─── Large desktop: ≥ 1440px ───────────────────────────────────────── */
+@media (min-width: 1440px) {
+
+  .homeSection,
+  .verticalSection {
+    padding: 0 clamp(60px, 6vw, 120px) !important;
+  }
+
+  .itemsContainer.itemsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  }
+
+  .detailPageContent,
+  .detailPageWrapperContent {
+    padding-left:  clamp(80px, 8vw, 160px) !important;
+    padding-right: clamp(80px, 8vw, 160px) !important;
+  }
+}
+
+/* ─── TV / 4K: ≥ 1920px ─────────────────────────────────────────────── */
+@media (min-width: 1920px) {
+
+  html { font-size: 18px; }
+
+  .homeSection,
+  .verticalSection {
+    padding: 0 clamp(80px, 6vw, 180px) !important;
+    margin-bottom: 72px !important;
+  }
+
+  .itemsContainer.itemsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    gap: var(--abyss-space-lg) !important;
+  }
+
+  /* Larger ambient glow for OLED TVs */
+  .itemDetailPage::before {
+    width: 80% !important;
+    height: 70% !important;
+    filter: blur(100px) !important;
+  }
+
+  /* Poster larger on TV */
+  .detailImageContainer img,
+  .detailImage {
+    width: clamp(180px, 12vw, 280px) !important;
+  }
+
+  /* Subtitles bigger on TV distance */
+  .videoSubtitles,
+  .subs-container {
+    font-size: 1.4em !important;
+    letter-spacing: 0.01em !important;
+  }
+}
+
+/* ─── Focus/hover states for D-pad / TV navigation ───────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover effects on pure touch devices — use tap states instead */
+  .card:hover {
+    transform: none !important;
+  }
+  .card:active {
+    transform: scale(0.97) !important;
+    filter: brightness(0.90) !important;
+  }
+}
+
+/* ─── High contrast mode ─────────────────────────────────────────────── */
+@media (prefers-contrast: high) {
+  .card,
+  .dialog,
+  .navMenuOption {
+    border-color: rgba(255, 255, 255, 0.30) !important;
+  }
+  .sectionTitle,
+  .cardTextSecondary {
+    color: var(--abyss-text-secondary) !important;
+  }
+}
