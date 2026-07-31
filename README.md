@@ -1,0 +1,1 @@
+you don't need to do anything with the JavaScript file just paste the CSS into the branding tab on your dashboard press ctrl+Shift+R on your keyboard to make the theme take effect then boom your all ready to go
