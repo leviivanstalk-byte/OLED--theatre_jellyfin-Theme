@@ -1,1 +1,2 @@
 you don't need to do anything with the JavaScript file just paste the CSS into the branding tab on your dashboard press ctrl+Shift+R on your keyboard to make the theme take effect then boom your all ready to go
+also just for some extra customisation I have added a jelly thin themed startup animation that you can add to play at the start of every movie and/or series you play within your jelly pin server using one of the pre-roll add-ons
